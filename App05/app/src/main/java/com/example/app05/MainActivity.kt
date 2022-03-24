@@ -55,24 +55,42 @@ class MainActivity : AppCompatActivity() {
         val editText = findViewById<EditText>(R.id.editText)
         val button = findViewById<Button>(R.id.button)
 
-        editText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
-            }
 
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+//       1. TextWatcher의 익명 개체로 만들어서 넣는 것 : 인터페이스의 모든 메서드 오버라이딩
+//        editText.addTextChangedListener(object : TextWatcher {
+//            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+//
+//            }
+//
+//            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+//
+//            }
+//
+//            override fun afterTextChanged(p0: Editable?) {
+//                val str = p0.toString()
+//                button.isEnabled = str.isNotEmpty()
+//            }
+//        })
 
-            }
 
-            override fun afterTextChanged(p0: Editable?) {
-                val str = p0.toString()
-                button.isEnabled = str.isNotEmpty()
-            }
-        })
+//      2. 모든 함수의 body를 구현 - 필요한 것만 오버라이딩 하는 것
+//        editText.addTextChangedListener(afterTextChanged = {
+//            val str = it.toString()
+//            button.isEnabled = str.isNotEmpty()
+//        })
 
-        button.setOnClickListener {
+
+//      3. afterTextChanged를 많이 사용하므로 그냥 미리 구현해놓은 것.
+        editText.addTextChangedListener {
+            val str = it.toString()
+            button.isEnabled = str.isNotEmpty()
+        }
+
+            button.setOnClickListener {
             adapter.add(editText.text.toString())
             adapter.notifyDataSetChanged()
+            editText.text.clear()
 
         }
 
