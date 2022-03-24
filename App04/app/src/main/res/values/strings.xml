@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">201811257 박장우</string>
+    <string name="text_hint">문자를 입력하세요. </string>
+    <string-array name="greenjoa">
+        <item>greenjoa1</item>
+        <item>greenjoa2</item>
+        <item>greenjoa3</item>
+    </string-array>
+
+    <string-array name="countries_array">
+        <item>Afghanistan</item>
+        <item>Albania</item>
+        <item>Algeria</item>
+        <item>American Samoa</item>
+        <item>Andorra</item>
+        <item>Bahrain</item>
+        <item>Bangladesh</item>
+        <item>Barbados</item>
+        <item>Belarus</item>
+        <item>Belgium</item>
+    </string-array>
+
+</resources>
