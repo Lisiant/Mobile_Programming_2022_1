@@ -15,6 +15,7 @@ class MyAdapter(val items: ArrayList<MyData>) : RecyclerView.Adapter<MyAdapter.V
         val textView = itemView.findViewById<TextView>(R.id.textView)
     }
 
+
     // ViewHolder가 필요할 때마다 호출되는 메서드. ViewHolder를 만들어서 반환하는 역할.
     // ViewHolder는 정보를 가지고 있어야 한다. -> row.xml을 객체화하는 역할
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
