@@ -67,7 +67,6 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     meaningTextView.visibility = View.VISIBLE
                     data.isOpened = true
-
                 }
             }
         }
