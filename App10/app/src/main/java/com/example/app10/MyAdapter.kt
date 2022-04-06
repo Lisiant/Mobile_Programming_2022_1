@@ -56,15 +56,12 @@ class MyAdapter(val items: ArrayList<MyData>) : RecyclerView.Adapter<MyAdapter.V
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.textView.text = items[position].word
         holder.meaningTextView.text = items[position].meaning
+        holder.meaningTextView.visibility = View.GONE
 
         if (!items[position].isOpened) {
-            if (holder.meaningTextView.visibility == View.VISIBLE) {
-                holder.meaningTextView.visibility = View.GONE
-            }
-        }else{
-            if (holder.meaningTextView.visibility == View.GONE){
-                holder.meaningTextView.visibility = View.VISIBLE
-            }
+            holder.meaningTextView.visibility = View.GONE
+        } else {
+            holder.meaningTextView.visibility = View.VISIBLE
         }
 
 
