@@ -39,14 +39,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun changeVisible(view: View,isClicked : Boolean){
-        if(isClicked){
-            view.visibility = View.VISIBLE
-        }
-        else{
-            view.visibility = View.GONE
-        }
-    }
+
 
     private fun initRecyclerView(){
         recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
@@ -54,12 +47,12 @@ class MainActivity : AppCompatActivity() {
             LinearLayoutManager.VERTICAL,false)
         adapter = MyAdapter(data)
         adapter.itemClickListner = object:MyAdapter.OnItemClickListner{
-            override fun OnItemClick(data: MyData , textView: TextView) {
+            override fun OnItemClick(data: MyData , position: Int) {
                 if(ttsReady)
                     tts.speak(data.word, TextToSpeech.QUEUE_ADD, null)
                 Toast.makeText(applicationContext , data.meaning, Toast.LENGTH_SHORT).show()
                 data.isClicked = !data.isClicked
-                changeVisible(textView,data.isClicked)
+                adapter.notifyItemChanged(position)
             }
 
         }

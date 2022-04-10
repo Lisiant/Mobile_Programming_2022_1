@@ -1,4 +1,6 @@
 package com.example.app10
 
-data class MyData(var word: String, var meaning: String, var isOpened: Boolean)
+import java.io.Serializable
+
+data class MyData(var word: String, var meaning: String, var isOpened: Boolean= false):Serializable
 

@@ -1,14 +1,51 @@
 package com.example.app12
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import com.example.app12.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    val CALL_REQUEST = 100
+
+
+    val permissions = arrayOf(
+        android.Manifest.permission.CALL_PHONE,
+        android.Manifest.permission.CAMERA
+    )
+
+    val multiplePermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
+            val resultPermission = it.all {
+                it.value == true
+            }
+            if (resultPermission) {
+                Toast.makeText(this, "모든 권한 승인됨", Toast.LENGTH_SHORT).show()
+                callAction()
+            } else {
+                Toast.makeText(this, "권한 거부됨", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+            if (it) {
+                Toast.makeText(this, "모든 권한 승인됨", Toast.LENGTH_SHORT).show()
+                callAction()
+            } else {
+                Toast.makeText(this, "권한 거부됨", Toast.LENGTH_SHORT).show()
+
+            }
+        }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,6 +53,68 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initLayout()
+    }
+
+
+    private fun callAction() {
+        val number = Uri.parse("tel:010-1234-1234")
+        val callIntent = Intent(Intent.ACTION_CALL, number)
+        when {
+            ((ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE)) == PackageManager.PERMISSION_GRANTED) &&
+                 ((ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA)) == PackageManager.PERMISSION_GRANTED) -> {
+                    startActivity(callIntent)
+            }
+
+            ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.CALL_PHONE) -> {
+                callAlertDlg()
+            }
+            else -> {
+                multiplePermissionLauncher.launch(permissions)
+
+//                ActivityCompat.requestPermissions(
+//                    this, arrayOf(android.Manifest.permission.CALL_PHONE), CALL_REQUEST
+//                )
+            }
+        }
+
+    }
+
+    private fun callAlertDlg() {
+        val builder = AlertDialog.Builder(this)
+        builder.setMessage("반드시 CALL_PHONE, CAMERA 권한 필요")
+            .setTitle("권한 체크")
+            .setPositiveButton("OKAY") { _, _ ->
+                multiplePermissionLauncher.launch(permissions)
+                // requestPermissionLauncher.launch(android.Manifest.permission.CALL_PHONE)
+                // ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.CALL_PHONE), CALL_REQUEST)
+
+            }
+            .setNegativeButton("Cancel") { dlg, _ ->
+                dlg.dismiss()
+            }
+        val dlg = builder.create()
+        dlg.show()
+
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        // 퍼미션 정보
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            CALL_REQUEST -> {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, "권한 승인됨", Toast.LENGTH_SHORT).show()
+                    callAction()
+                } else {
+                    Toast.makeText(this, "권한 거부됨", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
     }
 
     private fun initLayout() {
@@ -40,13 +139,12 @@ class MainActivity : AppCompatActivity() {
             }
 
             callBtn.setOnClickListener {
-                val number = Uri.parse("tel:010-1234-1234")
-                val callIntent = Intent(Intent.ACTION_CALL, number)
-                startActivity(callIntent)
+                callAction()
             }
 
         }
 
 
     }
+
 }

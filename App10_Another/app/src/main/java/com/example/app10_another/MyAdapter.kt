@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class MyAdapter(val items:ArrayList<MyData>) :RecyclerView.Adapter<MyAdapter.ViewHolder>(){
     interface OnItemClickListner{
-        fun OnItemClick(data:MyData , textView: TextView)
+        fun OnItemClick(data:MyData , position: Int)
     }
     fun moveItem(oldPos:Int, newPos:Int){           //drag&drop
         val item = items[oldPos]
@@ -28,7 +28,7 @@ class MyAdapter(val items:ArrayList<MyData>) :RecyclerView.Adapter<MyAdapter.Vie
         val textView2 = itemView.findViewById<TextView>(R.id.textView2)
         init{
             textView.setOnClickListener{
-                itemClickListner?.OnItemClick(items[adapterPosition] , textView2)
+                itemClickListner?.OnItemClick(items[adapterPosition] , adapterPosition)
             }
         }
 
@@ -52,4 +52,5 @@ class MyAdapter(val items:ArrayList<MyData>) :RecyclerView.Adapter<MyAdapter.Vie
     override fun getItemCount(): Int {
         return items.size
     }
+
 }
