@@ -20,7 +20,6 @@ class IntroActivity : AppCompatActivity() {
             val voc = it.data?.getSerializableExtra("voc") as MyData
             Toast.makeText(this,voc.word + "단어가 추가됨",Toast.LENGTH_SHORT).show()
         }
-        Log.d("TESTTOAST", (it.resultCode == Activity.RESULT_OK).toString())
 
     }
     override fun onCreate(savedInstanceState: Bundle?) {
