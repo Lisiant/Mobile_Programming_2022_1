@@ -4,23 +4,30 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.RadioGroup
+import com.example.app02_imgselect.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    lateinit var binding: ActivityMainBinding
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+
+        setContentView(binding.root)
         init()
     }
 
-    fun init(){
-        val radioGroup = findViewById<RadioGroup>(R.id.radioGroup)
-        val imageView = findViewById<ImageView>(R.id.imageView)
+    private fun init(){
+        
+        //val radioGroup = findViewById<RadioGroup>(R.id.radioGroup)
+        //val imageView = findViewById<ImageView>(R.id.imageView)
 
-        radioGroup.setOnCheckedChangeListener{radioGroup,checkedID->
+        binding.radioGroup.setOnCheckedChangeListener{radioGroup,checkedID->
             when(checkedID){
-                R.id.radioButton1 -> imageView.setImageResource(R.drawable.img1)
-                R.id.radioButton2 -> imageView.setImageResource(R.drawable.img2)
-                R.id.radioButton3 -> imageView.setImageResource(R.drawable.img3)
+                 R.id.radioButton1 -> binding.imageView.setImageResource(R.drawable.img1)
+                 R.id.radioButton2 -> binding.imageView.setImageResource(R.drawable.img2)
+                 R.id.radioButton3 -> binding.imageView.setImageResource(R.drawable.img3)
+
             }
         }
     }

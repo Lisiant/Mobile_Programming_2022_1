@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import com.example.app10.databinding.ActivityAddVocBinding
 import java.io.PrintStream
 import java.util.*
@@ -45,6 +46,7 @@ class AddVocActivity : AppCompatActivity() {
         output.close()
         val intent = Intent()
         intent.putExtra("voc", MyData(word, meaning))
+        Toast.makeText(this, "${word}단어가 추가됨", Toast.LENGTH_SHORT).show()
         setResult(Activity.RESULT_OK, intent)
     }
 

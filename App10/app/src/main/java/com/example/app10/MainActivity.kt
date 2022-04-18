@@ -58,18 +58,16 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         adapter = MyAdapter(data)
         adapter.itemClickListener = object : MyAdapter.OnItemClickListener {
-            override fun OnItemClick(data: MyData, meaningTextView: TextView) {
+            override fun onItemClick(data: MyData, meaningTextView: TextView) {
                 Toast.makeText(applicationContext, data.meaning, Toast.LENGTH_SHORT).show()
                 if (ttsReady) {
                     tts.speak(data.word, TextToSpeech.QUEUE_ADD, null, null)
                 }
-
-                if (data.isOpened) {
+                data.isOpened = !data.isOpened
+                if (!data.isOpened) {
                     meaningTextView.visibility = View.GONE
-                    data.isOpened = false
                 } else {
                     meaningTextView.visibility = View.VISIBLE
-                    data.isOpened = true
                 }
             }
         }
@@ -100,7 +98,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun readFileScan(scan: Scanner){
+    private fun readFileScan(scan: Scanner){
         while (scan.hasNextLine()) {
             val word = scan.nextLine()
             val meaning = scan.nextLine()

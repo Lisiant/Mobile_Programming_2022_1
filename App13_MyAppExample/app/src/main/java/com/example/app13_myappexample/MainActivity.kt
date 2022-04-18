@@ -59,15 +59,11 @@ class MainActivity : AppCompatActivity() {
 
         when {
             ActivityCompat.checkSelfPermission(
-                this,
-                "com.example.applists"
-            ) == PackageManager.PERMISSION_GRANTED -> {
+                this, "com.example.applists") == PackageManager.PERMISSION_GRANTED -> {
                 startActivity(intent)
             }
             ActivityCompat.shouldShowRequestPermissionRationale(
-                this,
-                "com.example.applists"
-            ) -> {
+                this, "com.example.applists") -> {
                 appListAlertDlg()
             }
 

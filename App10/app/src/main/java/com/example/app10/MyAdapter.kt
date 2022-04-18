@@ -1,6 +1,5 @@
 package com.example.app10
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,7 @@ import com.example.app10.databinding.RowBinding
 class MyAdapter(val items: ArrayList<MyData>) : RecyclerView.Adapter<MyAdapter.ViewHolder>() {
     // 인터페이스 정의: 어댑터 클래스에서 하기
     interface OnItemClickListener {
-        fun OnItemClick(data: MyData, meaningTextView: TextView)
+        fun onItemClick(data: MyData, meaningTextView: TextView)
     }
 
     fun moveItem(oldPos: Int, newPos: Int) {
@@ -47,7 +46,7 @@ class MyAdapter(val items: ArrayList<MyData>) : RecyclerView.Adapter<MyAdapter.V
 
         init {
             binding.textView.setOnClickListener {
-                itemClickListener?.OnItemClick(items[adapterPosition], binding.meaningTv)
+                itemClickListener?.onItemClick(items[adapterPosition], binding.meaningTv)
             }
         }
     }
@@ -65,6 +64,7 @@ class MyAdapter(val items: ArrayList<MyData>) : RecyclerView.Adapter<MyAdapter.V
         holder.binding.textView.text = items[position].word
         holder.binding.meaningTv.text = items[position].meaning
         holder.binding.meaningTv.visibility = View.GONE
+
 
         if (!items[position].isOpened) {
             holder.binding.meaningTv.visibility = View.GONE

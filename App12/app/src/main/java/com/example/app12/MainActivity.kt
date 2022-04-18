@@ -14,15 +14,15 @@ import com.example.app12.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    val CALL_REQUEST = 100
+    private val CALL_REQUEST = 100
 
 
-    val permissions = arrayOf(
+    private val permissions = arrayOf(
         android.Manifest.permission.CALL_PHONE,
         android.Manifest.permission.CAMERA
     )
 
-    val multiplePermissionLauncher =
+    private val requestMultiplePermissionsLauncher =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
             val resultPermission = it.all {
                 it.value == true
@@ -69,8 +69,8 @@ class MainActivity : AppCompatActivity() {
                 callAlertDlg()
             }
             else -> {
-                multiplePermissionLauncher.launch(permissions)
-
+                requestMultiplePermissionsLauncher.launch(permissions)
+//                requestPermissionLauncher.launch(android.Manifest.permission.CALL_PHONE)
 //                ActivityCompat.requestPermissions(
 //                    this, arrayOf(android.Manifest.permission.CALL_PHONE), CALL_REQUEST
 //                )
@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity() {
         builder.setMessage("반드시 CALL_PHONE, CAMERA 권한 필요")
             .setTitle("권한 체크")
             .setPositiveButton("OKAY") { _, _ ->
-                multiplePermissionLauncher.launch(permissions)
+                requestMultiplePermissionsLauncher.launch(permissions)
                 // requestPermissionLauncher.launch(android.Manifest.permission.CALL_PHONE)
                 // ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.CALL_PHONE), CALL_REQUEST)
 
@@ -97,6 +97,8 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    // 사용자의 퍼미션 허용이 끝나면 자동으로 호출되는 함수
+    // 사용자의 퍼미션 허용 결과를 확인하는 함수이다
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
