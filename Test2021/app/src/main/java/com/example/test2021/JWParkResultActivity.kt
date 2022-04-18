@@ -41,8 +41,6 @@ class JWParkResultActivity : AppCompatActivity() {
             sum += item.productPrice
         }
         binding.totalPrice.text = sum.toString()
-
-
     }
 
     private fun readFileScan(scan: Scanner) {
@@ -61,8 +59,6 @@ class JWParkResultActivity : AppCompatActivity() {
         adapter = JWParkResultAdapter(data)
 
         binding.resultRv.adapter = adapter
-        adapter.notifyDataSetChanged()
-
     }
 
 }
