@@ -21,12 +21,13 @@ class JWParkIntroActivity : AppCompatActivity() {
 
         if (it.resultCode == Activity.RESULT_OK){
             val productInfo = it.data?.getSerializableExtra("productInfo") as JWParkMyData
+            Toast.makeText(this, "${productInfo.productName}, ${productInfo.productPrice}", Toast.LENGTH_SHORT).show()
         }
     }
 
 
 
-    private var requestPermissionLauncher =
+    private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) {
             if (it){
                 callAction()
@@ -52,13 +53,11 @@ class JWParkIntroActivity : AppCompatActivity() {
         binding.button1.setOnClickListener {
             val intent = Intent(this, JWParkListActivity::class.java)
             startActivity(intent)
-
         }
 
         binding.button2.setOnClickListener {
             val intent = Intent(this, JWParkResultActivity::class.java)
             activityResultLauncher.launch(intent)
-
         }
     }
 
@@ -67,18 +66,12 @@ class JWParkIntroActivity : AppCompatActivity() {
         val number = Uri.parse("tel:$phoneNumber")
         val callIntent = Intent(Intent.ACTION_CALL, number)
         when {
-            ((ActivityCompat.checkSelfPermission(
-                this,
-                android.Manifest.permission.CALL_PHONE
-            )) == PackageManager.PERMISSION_GRANTED)
-            -> {
+            ((ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE))
+                    == PackageManager.PERMISSION_GRANTED) -> {
                 startActivity(callIntent)
             }
 
-            ActivityCompat.shouldShowRequestPermissionRationale(
-                this,
-                android.Manifest.permission.CALL_PHONE
-            ) -> {
+            ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.CALL_PHONE) -> {
                 callAlertDlg()
             }
             else -> {
