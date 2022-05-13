@@ -1,10 +1,11 @@
-package com.example.app24_sqlite
+package com.example.app25_sqlitepractice
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
-import com.example.app24_sqlite.databinding.ActivityMainBinding
+import com.example.app25_sqlitepractice.databinding.ActivityMainBinding
+import java.io.FileOutputStream
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -14,8 +15,28 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        initDB()
         init()
         getAllRecord()
+    }
+
+    private fun initDB() {
+        val dbFile = getDatabasePath("mydb.db")
+        if (!dbFile.parentFile.exists()){
+            dbFile.parentFile.mkdir()
+        }
+        if (!dbFile.exists()) {
+            val file = resources.openRawResource(R.raw.mydb)
+            val fileSize = file.available()
+            val buffer = ByteArray(fileSize)
+            file.read(buffer)
+            file.close()
+            dbFile.createNewFile()
+            val output = FileOutputStream(dbFile)
+            output.write(buffer)
+            output.close()
+        }
     }
 
     private fun getAllRecord(){
